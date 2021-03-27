@@ -1,5 +1,10 @@
 const readline = require('readline');
 
+const yargs = require('yargs/yargs');
+const { hideBin } = require('yargs/helpers');
+
+const fs = require('fs');
+
 const { createLogger } = require('./logger');
 const { createGame } = require('./game');
 
@@ -9,7 +14,14 @@ const rl = readline.createInterface({
   prompt: '\nChoose 1️ or 2. Your answer: ',
 });
 
-const logger = createLogger();
+const { argv } = yargs(hideBin(process.argv))
+  .option('f', {
+    alias: 'file',
+    describe: 'file to log results of game',
+    demandOption: true,
+  });
+
+const logger = createLogger(argv, fs);
 
 const { startGame, handleAnswer, handleClose } = createGame(rl, logger);
 

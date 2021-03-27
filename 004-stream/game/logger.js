@@ -1,16 +1,4 @@
-const yargs = require('yargs/yargs');
-const { hideBin } = require('yargs/helpers');
-
-const fs = require('fs');
-
-function createLogger() {
-  const { argv } = yargs(hideBin(process.argv))
-    .option('f', {
-      alias: 'file',
-      describe: 'file to log results of game',
-      demandOption: true,
-    });
-
+function createLogger(argv, fs) {
   const writable = fs.createWriteStream(`${argv.f}.txt`);
 
   return {
