@@ -16,7 +16,7 @@ siteBooksRouter.get('/create', (_, res) => {
   });
 });
 
-siteBooksRouter.post('/create', fileMiddleware.single('file_book'), (req, res) => {
+siteBooksRouter.post('/create', fileMiddleware.single('fileBook'), (req, res) => {
   booksActions.add({
     ...req.body,
     fileBook: req.file ? `/${req.file.path}` : '',
@@ -31,7 +31,7 @@ siteBooksRouter.get('/update/:id', (req, res) => {
   res.render('books/update', { book });
 });
 
-siteBooksRouter.post('/update/:id', fileMiddleware.single('file_book'), (req, res) => {
+siteBooksRouter.post('/update/:id', fileMiddleware.single('fileBook'), (req, res) => {
   const editableBook = booksActions.getById({ id: req.params.id });
 
   booksActions.edit({

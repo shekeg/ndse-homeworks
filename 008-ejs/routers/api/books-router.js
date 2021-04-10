@@ -15,7 +15,7 @@ apiBooksRouter.get('/:id', (req, res) => {
   res.status(200).json(book);
 });
 
-apiBooksRouter.post('/', fileMiddleware.single('file_book'), (req, res) => {
+apiBooksRouter.post('/', fileMiddleware.single('fileBook'), (req, res) => {
   const book = booksActions.add({
     ...req.body,
     fileBook: req.file ? `/${req.file.path}` : '',
@@ -23,7 +23,7 @@ apiBooksRouter.post('/', fileMiddleware.single('file_book'), (req, res) => {
   res.status(200).json(book);
 });
 
-apiBooksRouter.put('/:id', fileMiddleware.single('file_book'), (req, res) => {
+apiBooksRouter.put('/:id', fileMiddleware.single('fileBook'), (req, res) => {
   const book = booksActions.edit({
     ...req.body,
     id: req.params.id,
