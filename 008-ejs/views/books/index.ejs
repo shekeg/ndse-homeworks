@@ -1,0 +1,12 @@
+<%- include("../partials/layout-start.ejs") %>
+
+<h1>Books</h1>
+
+<% books.forEach(function(book){ %>
+  <div><%= JSON.stringify(book) %></div>
+  <form action="/books/delete/<%= book.id %>" method="POST">
+    <button>Delete <%= book.id %></button>
+  </form>
+<% }); %>
+
+<%- include("../partials/layout-end.ejs") %>
