@@ -1,14 +1,41 @@
 <form method="POST" enctype="multipart/form-data">
-  <input type="text" name="id" value="<%= book.id %>">
-  <input type="text" name="title" value="<%= book.title %>">
-  <input type="text" name="description" value="<%= book.description %>">
-  <input type="text" name="authors" value="<%= book.authors %>">
-  <input type="text" name="favorite" value="<%= book.favorite %>">
-  <input type="text" name="fileCover" value="<%= book.fileCover %>">
-  <input type="text" name="fileName" value="<%= book.fileName %>">
+  <div class="mb-3">
+    <label for="id" class="form-label">id</label>
+    <input type="text" name="id" id="id" class="form-control" value="<%= book.id %>">
+  </div>
+  <div class="mb-3">
+    <label for="title" class="form-label">title</label>
+    <input type="text" name="title" id="title" class="form-control" value="<%= book.title %>">
+  </div>
+  <div class="mb-3">
+    <label for="description" class="form-label">description</label>
+    <input type="text" name="description" id="description" class="form-control" value="<%= book.description %>">
+  </div>
+  <div class="mb-3">
+    <label for="authors" class="form-label">authors</label>
+    <input type="text" name="authors" id="authors" class="form-control" value="<%= book.authors %>">
+  </div>
+  <div class="mb-3">
+    <label for="favorite" class="form-label">favorite</label>
+    <input type="text" name="favorite" id="favorite" class="form-control" value="<%= book.favorite %>">
+  </div>
+  <div class="mb-3">
+    <label for="fileCover" class="form-label">fileCover</label>
+    <input type="text" name="fileCover" id="fileCover" class="form-control" value="<%= book.fileCover %>">
+  </div>
+  <div class="mb-3">
+    <label for="fileName" class="form-label">fileName</label>
+    <input type="text" name="fileName" id="fileName" class="form-control" value="<%= book.fileName %>">
+  </div>
   <% if (book.fileBook !== '') { %>
-    <img src="<%= book.fileBook %>" alt="">
+    <div class="mb-3">
+      <span>Current file: </span>
+      <a href="<%= book.fileBook %>" target="_blank"><%= book.fileBook %></a>
+    </div>
   <% } %>
-  <input type="file" name="file_book">
-  <input type="submit" value="Save">
+  <div class="mb-3">
+    <label for="file_book" class="form-label">New file</label>
+    <input type="file" name="file_book" id="file_book" class="form-control"">
+  </div>
+  <button type="submit" class="btn btn-primary">Submit</button>
 </form>
