@@ -23,8 +23,12 @@ booksRouter.post('/', fileMiddleware.single('file_book'), (req, res) => {
   res.status(200).json(book);
 });
 
-booksRouter.put('/:id', (req, res) => {
-  const book = booksActions.edit({ ...req.body, id: req.params.id });
+booksRouter.put('/:id', fileMiddleware.single('file_book'), (req, res) => {
+  const book = booksActions.edit({
+    ...req.body,
+    id: req.params.id,
+    fileBook: req.file ? req.file.path : '',
+  });
   res.status(200).json(book);
 });
 
