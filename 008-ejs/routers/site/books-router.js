@@ -3,20 +3,20 @@ const { fileMiddleware } = require('../../middlewares/books/fileMiddleware');
 
 const { booksActions } = require('../../actions');
 
-const stieBooksRouter = express.Router();
+const siteBooksRouter = express.Router();
 
-stieBooksRouter.get('/', (_, res) => {
+siteBooksRouter.get('/', (_, res) => {
   const books = booksActions.list();
   res.render('books/index', { books });
 });
 
-stieBooksRouter.get('/create', (_, res) => {
+siteBooksRouter.get('/create', (_, res) => {
   res.render('books/create', {
     book: {},
   });
 });
 
-stieBooksRouter.post('/create', fileMiddleware.single('file_book'), (req, res) => {
+siteBooksRouter.post('/create', fileMiddleware.single('file_book'), (req, res) => {
   booksActions.add({
     ...req.body,
     fileBook: req.file ? `/${req.file.path}` : '',
@@ -25,13 +25,13 @@ stieBooksRouter.post('/create', fileMiddleware.single('file_book'), (req, res) =
   res.redirect('/books');
 });
 
-stieBooksRouter.get('/update/:id', (req, res) => {
+siteBooksRouter.get('/update/:id', (req, res) => {
   const book = booksActions.getById({ id: req.params.id });
 
   res.render('books/update', { book });
 });
 
-stieBooksRouter.post('/update/:id', fileMiddleware.single('file_book'), (req, res) => {
+siteBooksRouter.post('/update/:id', fileMiddleware.single('file_book'), (req, res) => {
   const editableBook = booksActions.getById({ id: req.params.id });
 
   booksActions.edit({
@@ -43,10 +43,10 @@ stieBooksRouter.post('/update/:id', fileMiddleware.single('file_book'), (req, re
   res.redirect('/books');
 });
 
-stieBooksRouter.post('/delete/:id', (req, res) => {
+siteBooksRouter.post('/delete/:id', (req, res) => {
   booksActions.delete({ id: req.params.id });
 
   res.redirect('/books');
 });
 
-exports.stieBooksRouter = stieBooksRouter;
+exports.siteBooksRouter = siteBooksRouter;
