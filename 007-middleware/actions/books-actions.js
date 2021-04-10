@@ -12,6 +12,19 @@ const booksActions = {
 
     return booksDb.findById({ id });
   },
+  download({ id }, res, next) {
+    if (!id) {
+      throw new Error('You must pass a book id');
+    }
+
+    const book = this.getById({ id });
+
+    res.download(book.fileBook, (err) => {
+      if (err) {
+        next(new Error('404 File not found'));
+      }
+    });
+  },
   add(bookInfo) {
     if (!bookInfo) {
       throw new Error('You must pass a book object');

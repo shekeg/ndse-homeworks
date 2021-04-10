@@ -49,6 +49,14 @@ booksRouter.delete('/:id', (req, res) => {
   }
 });
 
+booksRouter.get('/:id/download', (req, res, next) => {
+  try {
+    booksActions.download({ id: req.params.id }, res, next);
+  } catch (err) {
+    handleError(err, res);
+  }
+});
+
 function handleError(err, res) {
   if (err.message.includes('404')) {
     res.status(404).json(err.message);
