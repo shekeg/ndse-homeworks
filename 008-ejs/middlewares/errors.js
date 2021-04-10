@@ -1,12 +1,28 @@
 function notFoundMiddleware(req, res) {
   res.status(404);
-  res.json({ error: 'Not found' });
+
+  if (req.accepts('html')) {
+    res.render('404');
+    return;
+  }
+
+  if (req.accepts('json')) {
+    res.json({ error: 'Not found' });
+  }
 }
 
 // eslint-disable-next-line no-unused-vars
 function errorHandleMiddleware(err, req, res, next) {
   res.status(500);
-  res.json({ error: err.message });
+
+  if (req.accepts('html')) {
+    res.render('500');
+    return;
+  }
+
+  if (req.accepts('json')) {
+    res.json({ error: err.message });
+  }
 }
 
 module.exports = {
