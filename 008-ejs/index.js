@@ -4,6 +4,8 @@ const { apiUserRouter, apiBooksRouter } = require('./routers/index');
 const { notFoundMiddleware, errorHandleMiddleware } = require('./middlewares/errors');
 
 const app = express();
+
+app.use(express.urlencoded());
 app.use(express.json());
 
 app.use('/public', express.static(`${__dirname}/public`));
