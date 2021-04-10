@@ -6,6 +6,8 @@ const { notFoundMiddleware, errorHandleMiddleware } = require('./middlewares/err
 const app = express();
 app.use(express.json());
 
+app.use('/public', express.static(`${__dirname}/public`));
+
 app.use('/api/user', userRouter);
 app.use('/api/books', booksRouter);
 
