@@ -5,7 +5,6 @@ const { notFoundMiddleware, errorHandleMiddleware } = require('./middlewares/err
 
 const app = express();
 
-app.use(express.urlencoded());
 app.use(express.json());
 app.set('view engine', 'ejs');
 
