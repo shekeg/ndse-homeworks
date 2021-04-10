@@ -19,11 +19,10 @@ const booksDb = {
       return state.books[targetIndex];
     }
   },
-  insert({ id, ...bookInfo }) {
-    // eslint-disable-next-line no-param-reassign
-    id = generateUniqueId();
-    state.books.push({ id, ...bookInfo });
-    return { id, ...bookInfo };
+  insert({ ...bookInfo }) {
+    const id = generateUniqueId();
+    state.books.push({ ...bookInfo, id });
+    return { ...bookInfo, id };
   },
   update({ id, ...bookInfo }) {
     const targetIndex = getTargetIndex(id);
