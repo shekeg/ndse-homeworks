@@ -19,7 +19,7 @@ stieBooksRouter.get('/create', (_, res) => {
 stieBooksRouter.post('/create', fileMiddleware.single('file_book'), (req, res) => {
   booksActions.add({
     ...req.body,
-    fileBook: req.file ? req.file.path : '',
+    fileBook: req.file ? `/${req.file.path}` : '',
   });
 
   res.redirect('/books');
@@ -31,10 +31,13 @@ stieBooksRouter.get('/update/:id', (req, res) => {
   res.render('books/update', { book });
 });
 
-stieBooksRouter.post('/update/:id', (req, res) => {
+stieBooksRouter.post('/update/:id', fileMiddleware.single('file_book'), (req, res) => {
+  const editableBook = booksActions.getById({ id: req.params.id });
+
   booksActions.edit({
     ...req.body,
     id: req.params.id,
+    fileBook: req.file ? `/${req.file.path}` : editableBook.fileBook,
   });
 
   res.redirect('/books');
