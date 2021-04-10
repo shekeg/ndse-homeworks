@@ -1,21 +1,21 @@
 const express = require('express');
-const { fileMiddleware } = require('../middlewares/books/fileMiddleware');
+const { fileMiddleware } = require('../../middlewares/books/fileMiddleware');
 
-const { booksActions } = require('../actions');
+const { booksActions } = require('../../actions');
 
-const booksRouter = express.Router();
+const apiBooksRouter = express.Router();
 
-booksRouter.get('/', (_, res) => {
+apiBooksRouter.get('/', (_, res) => {
   const books = booksActions.list();
   res.status(200).json(books);
 });
 
-booksRouter.get('/:id', (req, res) => {
+apiBooksRouter.get('/:id', (req, res) => {
   const book = booksActions.getById({ id: req.params.id });
   res.status(200).json(book);
 });
 
-booksRouter.post('/', fileMiddleware.single('file_book'), (req, res) => {
+apiBooksRouter.post('/', fileMiddleware.single('file_book'), (req, res) => {
   const book = booksActions.add({
     ...req.body,
     fileBook: req.file ? req.file.path : '',
@@ -23,7 +23,7 @@ booksRouter.post('/', fileMiddleware.single('file_book'), (req, res) => {
   res.status(200).json(book);
 });
 
-booksRouter.put('/:id', fileMiddleware.single('file_book'), (req, res) => {
+apiBooksRouter.put('/:id', fileMiddleware.single('file_book'), (req, res) => {
   const book = booksActions.edit({
     ...req.body,
     id: req.params.id,
@@ -32,13 +32,13 @@ booksRouter.put('/:id', fileMiddleware.single('file_book'), (req, res) => {
   res.status(200).json(book);
 });
 
-booksRouter.delete('/:id', (req, res) => {
+apiBooksRouter.delete('/:id', (req, res) => {
   booksActions.delete({ id: req.params.id });
   res.status(200).json('ok');
 });
 
-booksRouter.get('/:id/download', (req, res, next) => {
+apiBooksRouter.get('/:id/download', (req, res, next) => {
   booksActions.download({ id: req.params.id }, res, next);
 });
 
-exports.booksRouter = booksRouter;
+exports.apiBooksRouter = apiBooksRouter;

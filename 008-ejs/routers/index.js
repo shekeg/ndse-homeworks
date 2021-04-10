@@ -1,7 +1,7 @@
-const { userRouter } = require('./user-router');
-const { booksRouter } = require('./books-router');
+const { apiUserRouter } = require('./api/user-router');
+const { apiBooksRouter } = require('./api/books-router');
 
 module.exports = {
-  userRouter,
-  booksRouter,
+  apiUserRouter,
+  apiBooksRouter,
 };
