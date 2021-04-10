@@ -4,6 +4,9 @@
 
 <% books.forEach(function(book){ %>
   <div><%= JSON.stringify(book) %></div>
+  <% if (book.fileBook !== '') { %>
+    <img src="<%= book.fileBook %>" alt="">
+  <% } %>
   <form action="/books/delete/<%= book.id %>" method="POST">
     <button>Delete <%= book.id %></button>
   </form>

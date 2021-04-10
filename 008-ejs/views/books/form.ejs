@@ -1,4 +1,4 @@
-<form method="POST">
+<form method="POST" enctype="multipart/form-data">
   <input type="text" name="id" value="<%= book.id %>">
   <input type="text" name="title" value="<%= book.title %>">
   <input type="text" name="description" value="<%= book.description %>">
@@ -6,5 +6,6 @@
   <input type="text" name="favorite" value="<%= book.favorite %>">
   <input type="text" name="fileCover" value="<%= book.fileCover %>">
   <input type="text" name="fileName" value="<%= book.fileName %>">
+  <input type="file" name="file_book">
   <input type="submit" value="Save">
 </form>

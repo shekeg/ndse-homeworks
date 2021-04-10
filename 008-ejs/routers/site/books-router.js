@@ -1,4 +1,5 @@
 const express = require('express');
+const { fileMiddleware } = require('../../middlewares/books/fileMiddleware');
 
 const { booksActions } = require('../../actions');
 
@@ -15,9 +16,10 @@ stieBooksRouter.get('/create', (_, res) => {
   });
 });
 
-stieBooksRouter.post('/create', (req, res) => {
+stieBooksRouter.post('/create', fileMiddleware.single('file_book'), (req, res) => {
   booksActions.add({
     ...req.body,
+    fileBook: req.file ? req.file.path : '',
   });
 
   res.redirect('/books');
