@@ -11,58 +11,30 @@ booksRouter.get('/', (_, res) => {
 });
 
 booksRouter.get('/:id', (req, res) => {
-  try {
-    const book = booksActions.getById({ id: req.params.id });
-    res.status(200).json(book);
-  } catch (err) {
-    handleError(err, res);
-  }
+  const book = booksActions.getById({ id: req.params.id });
+  res.status(200).json(book);
 });
 
 booksRouter.post('/', fileMiddleware.single('file_book'), (req, res) => {
-  try {
-    const book = booksActions.add({
-      ...req.body,
-      fileBook: req.file ? req.file.path : '',
-    });
-    res.status(200).json(book);
-  } catch (err) {
-    handleError(err, res);
-  }
+  const book = booksActions.add({
+    ...req.body,
+    fileBook: req.file ? req.file.path : '',
+  });
+  res.status(200).json(book);
 });
 
 booksRouter.put('/:id', (req, res) => {
-  try {
-    const book = booksActions.edit({ ...req.body, id: req.params.id });
-    res.status(200).json(book);
-  } catch (err) {
-    handleError(err, res);
-  }
+  const book = booksActions.edit({ ...req.body, id: req.params.id });
+  res.status(200).json(book);
 });
 
 booksRouter.delete('/:id', (req, res) => {
-  try {
-    booksActions.delete({ id: req.params.id });
-    res.status(200).json('ok');
-  } catch (err) {
-    handleError(err, res);
-  }
+  booksActions.delete({ id: req.params.id });
+  res.status(200).json('ok');
 });
 
 booksRouter.get('/:id/download', (req, res, next) => {
-  try {
-    booksActions.download({ id: req.params.id }, res, next);
-  } catch (err) {
-    handleError(err, res);
-  }
+  booksActions.download({ id: req.params.id }, res, next);
 });
-
-function handleError(err, res) {
-  if (err.message.includes('404')) {
-    res.status(404).json(err.message);
-  } else {
-    res.status(500).json(err.message);
-  }
-}
 
 exports.booksRouter = booksRouter;
