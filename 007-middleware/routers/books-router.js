@@ -1,4 +1,5 @@
 const express = require('express');
+const { fileMiddleware } = require('../middlewares/books/fileMiddleware');
 
 const { booksActions } = require('../actions');
 
@@ -18,9 +19,12 @@ booksRouter.get('/:id', (req, res) => {
   }
 });
 
-booksRouter.post('/', (req, res) => {
+booksRouter.post('/', fileMiddleware.single('file_book'), (req, res) => {
   try {
-    const book = booksActions.add(req.body);
+    const book = booksActions.add({
+      ...req.body,
+      fileBook: req.file ? req.file.path : '',
+    });
     res.status(200).json(book);
   } catch (err) {
     handleError(err, res);
