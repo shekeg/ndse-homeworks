@@ -3,7 +3,7 @@ const fs = require('fs');
 const counterDb = {
   findById({ id }) {
     return new Promise((resolve, reject) => {
-      fs.readFile('./db.json', (err, data) => {
+      fs.readFile('./db-storage/db.json', (err, data) => {
         if (err) reject(err);
 
         const db = JSON.parse(data);
@@ -18,13 +18,13 @@ const counterDb = {
   },
   update({ id, value }) {
     return new Promise((resolve, reject) => {
-      fs.readFile('./db.json', (err, data) => {
+      fs.readFile('./db-storage/db.json', (err, data) => {
         if (err) reject(err);
 
         const db = JSON.parse(data);
         db[id] = value;
 
-        fs.writeFile('./db.json', JSON.stringify(db, null, 2), (err) => {
+        fs.writeFile('./db-storage/db.json', JSON.stringify(db, null, 2), (err) => {
           if (err) reject(err);
           resolve({ [id]: value });
         });
