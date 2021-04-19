@@ -10,9 +10,15 @@ apiBooksRouter.get('/', (_, res) => {
   res.status(200).json(books);
 });
 
-apiBooksRouter.get('/:id', (req, res) => {
-  const book = booksActions.getById({ id: req.params.id });
-  res.status(200).json(book);
+apiBooksRouter.get('/:id', (req, res, next) => {
+  const { id } = req.params;
+  const book = booksActions.getById({ id });
+  booksActions.incrementViewCount({ id })
+    .then(() => booksActions.getViewCount({ id }))
+    .then((state) => {
+      res.status(200).json({ ...book, viewCount: state[id] });
+    })
+    .catch(next);
 });
 
 apiBooksRouter.post('/', fileMiddleware.single('fileBook'), (req, res) => {

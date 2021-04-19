@@ -33,6 +33,11 @@
       <a href="<%= book.fileBook %>" target="_blank"><%= book.fileBook %></a>
     </div>
   <% } %>
+  <% if (book.viewCount !== undefined) { %>
+    <div class="mb-3">
+      <span>Views: <%= book.viewCount %></span>
+    </div>
+  <% } %>
   <div class="mb-3">
     <label for="fileBook" class="form-label">New file</label>
     <input type="file" name="fileBook" id="fileBook" class="form-control">

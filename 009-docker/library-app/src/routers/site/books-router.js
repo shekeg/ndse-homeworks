@@ -1,4 +1,5 @@
 const express = require('express');
+
 const { fileMiddleware } = require('../../middlewares/books/fileMiddleware');
 
 const { booksActions } = require('../../actions');
@@ -25,10 +26,15 @@ siteBooksRouter.post('/create', fileMiddleware.single('fileBook'), (req, res) =>
   res.redirect('/books');
 });
 
-siteBooksRouter.get('/update/:id', (req, res) => {
-  const book = booksActions.getById({ id: req.params.id });
-
-  res.render('books/update', { book });
+siteBooksRouter.get('/update/:id', (req, res, next) => {
+  const { id } = req.params;
+  const book = booksActions.getById({ id });
+  booksActions.incrementViewCount({ id })
+    .then(() => booksActions.getViewCount({ id }))
+    .then((state) => {
+      res.render('books/update', { book: { ...book, viewCount: state[id] } });
+    })
+    .catch(next);
 });
 
 siteBooksRouter.post('/update/:id', fileMiddleware.single('fileBook'), (req, res) => {
