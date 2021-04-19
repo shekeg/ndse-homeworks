@@ -6,12 +6,16 @@ const counterDb = {
       fs.readFile('./db-storage/db.json', (err, data) => {
         if (err) reject(err);
 
-        const db = JSON.parse(data);
+        if (data !== undefined) {
+          const db = JSON.parse(data);
 
-        if (db[id] === undefined) {
-          resolve({ [id]: 0 });
+          if (db[id] === undefined) {
+            resolve({ [id]: 0 });
+          } else {
+            resolve({ [id]: db[id] });
+          }
         } else {
-          resolve({ [id]: db[id] });
+          reject(new Error('File reading error. Data is undefined.'));
         }
       });
     });
@@ -21,13 +25,17 @@ const counterDb = {
       fs.readFile('./db-storage/db.json', (err, data) => {
         if (err) reject(err);
 
-        const db = JSON.parse(data);
-        db[id] = value;
+        if (data !== undefined) {
+          const db = JSON.parse(data);
+          db[id] = value;
 
-        fs.writeFile('./db-storage/db.json', JSON.stringify(db, null, 2), (err) => {
-          if (err) reject(err);
-          resolve({ [id]: value });
-        });
+          fs.writeFile('./db-storage/db.json', JSON.stringify(db, null, 2), (err) => {
+            if (err) reject(err);
+            resolve({ [id]: value });
+          });
+        } else {
+          reject(new Error('File reading error. Data is undefined.'));
+        }
       });
     });
   },
