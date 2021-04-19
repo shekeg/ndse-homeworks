@@ -13,6 +13,7 @@ function notFoundMiddleware(req, res) {
 
 // eslint-disable-next-line no-unused-vars
 function errorHandleMiddleware(err, req, res, next) {
+  console.log(err);
   res.status(500);
 
   if (req.accepts('html')) {
