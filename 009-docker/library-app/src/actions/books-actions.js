@@ -1,5 +1,11 @@
+const axios = require('axios').default;
+
 const { booksDb } = require('../db/index');
 const { Book } = require('../models/index');
+
+const COUNTER_SERVER_HOST = process.env.COUNTER_SERVER_HOST || 'localhost';
+const COUNTER_SERVER_PORT = process.env.COUNTER_SERVER_PORT || '3001';
+const COUNTER_SERVER_URL = `http://${COUNTER_SERVER_HOST}:${COUNTER_SERVER_PORT}/counter/`;
 
 const booksActions = {
   list() {
@@ -11,6 +17,14 @@ const booksActions = {
     }
 
     return booksDb.findById({ id });
+  },
+  incrementViewCount({ id }) {
+    return axios.post(`${COUNTER_SERVER_URL}/${id}/incr`)
+      .then((res) => res.data);
+  },
+  getViewCount({ id }) {
+    return axios.get(`${COUNTER_SERVER_URL}/${id}`)
+      .then((res) => res.data);
   },
   download({ id }, res, next) {
     if (!id) {
