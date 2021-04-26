@@ -1,0 +1,47 @@
+<%- include("../partials/layout-start.ejs") %>
+
+<h1>Books</h1>
+
+<a href="/books/create">Create</a>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">title</th>
+      <th scope="col">description</th>
+      <th scope="col">authors</th>
+      <th scope="col">favorite</th>
+      <th scope="col">fileCover</th>
+      <th scope="col">fileName</th>
+      <th scope="col">fileBook</th>
+      <th scope="col">Settings</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% books.forEach(function(book, index){ %>
+      <tr>
+        <th scope="row"><%= index %></th>
+        <td><%= book.title %></td>
+        <td><%= book.description %></td>
+        <td><%= book.authors %></td>
+        <td><%= book.favorite %></td>
+        <td><%= book.fileCover %></td>
+        <td><%= book.fileName %></td>
+        <% if (book.fileBook !== '') { %>
+          <td><a href="<%= book.fileBook %>" target="_blank"><%= book.fileBook %></a></td>
+        <% } else {%>
+          <td></td>
+        <% } %>
+        <td>
+          <a href="/books/update/<%= book.id %>">Update</a>
+          <form action="/books/delete/<%= book.id %>" method="POST">
+            <button>Delete</button>
+          </form>
+        </td>
+      </tr>
+    <% }); %>
+  </tbody>
+</table>
+
+<%- include("../partials/layout-end.ejs") %>

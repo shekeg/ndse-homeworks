@@ -1,0 +1,15 @@
+version: '3'
+services:
+  library-app:
+    image: library-app
+    ports:
+      - 3000:3000
+    environment:
+      - COUNTER_SERVER_HOST=counter-app
+      - COUNTER_SERVER_PORT=3001
+  counter-app:
+    image: counter-app
+    ports:
+      - 3001:3001
+    volumes:
+      - ./counter-app/src/db-storage:/counter-app/db-storage
