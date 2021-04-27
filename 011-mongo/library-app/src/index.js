@@ -27,9 +27,9 @@ async function start() {
   try {
     const PORT = process.env.PORT || 3000;
 
-    const MONGO_DB_HOST = process.env.MONGO_DB_HOST || 'mongodb://localhost:27017';
+    const MONGO_DB_HOST = process.env.MONGO_DB_HOST || 'mongodb://localhost:27017/books';
 
-    await mongoose.connect(`${MONGO_DB_HOST}/books`, { useNewUrlParser: true, useUnifiedTopology: true });
+    await mongoose.connect(MONGO_DB_HOST, { useNewUrlParser: true, useUnifiedTopology: true });
 
     app.listen(PORT, () => {
       console.log(`=== start server PORT ${PORT} ===`);
