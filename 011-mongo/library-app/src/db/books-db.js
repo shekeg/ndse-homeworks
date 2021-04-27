@@ -31,18 +31,7 @@ const booksDb = {
     return book.save();
   },
   update({ id, ...bookInfo }) {
-    const targetIndex = getTargetIndex(id);
-
-    if (targetIndex === -1) {
-      throw new Error('404 from DB');
-    } else {
-      state.books[targetIndex] = {
-        ...state.books[targetIndex],
-        ...bookInfo,
-      };
-
-      return state.books[targetIndex];
-    }
+    return BookModel.findByIdAndUpdate(id, bookInfo, { new: true });
   },
   remove({ id }) {
     const targetIndex = getTargetIndex(id);

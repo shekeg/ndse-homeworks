@@ -41,16 +41,20 @@ siteBooksRouter.get('/update/:id', async (req, res, next) => {
   }
 });
 
-siteBooksRouter.post('/update/:id', fileMiddleware.single('fileBook'), (req, res) => {
-  const editableBook = booksActions.getById({ id: req.params.id });
+siteBooksRouter.post('/update/:id', fileMiddleware.single('fileBook'), async (req, res, next) => {
+  try {
+    const editableBook = await booksActions.getById({ id: req.params.id });
 
-  booksActions.edit({
-    ...req.body,
-    id: req.params.id,
-    fileBook: req.file ? `/${req.file.path}` : editableBook.fileBook,
-  });
+    await booksActions.edit({
+      ...req.body,
+      id: req.params.id,
+      fileBook: req.file ? `/${req.file.path}` : editableBook.fileBook,
+    });
 
-  res.redirect('/books');
+    res.redirect('/books');
+  } catch (error) {
+    next(error);
+  }
 });
 
 siteBooksRouter.post('/delete/:id', (req, res) => {

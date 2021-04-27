@@ -34,13 +34,14 @@ apiBooksRouter.post('/', fileMiddleware.single('fileBook'), (req, res, next) => 
     .catch(next);
 });
 
-apiBooksRouter.put('/:id', fileMiddleware.single('fileBook'), (req, res) => {
-  const book = booksActions.edit({
+apiBooksRouter.put('/:id', fileMiddleware.single('fileBook'), (req, res, next) => {
+  booksActions.edit({
     ...req.body,
     id: req.params.id,
     fileBook: req.file ? `/${req.file.path}` : '',
-  });
-  res.status(200).json(book);
+  })
+    .then((book) => res.status(200).json(book))
+    .catch(next);
 });
 
 apiBooksRouter.delete('/:id', (req, res) => {
