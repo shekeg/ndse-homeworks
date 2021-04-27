@@ -12,12 +12,6 @@ const bookSchema = new Schema({
 
 const BookModel = model('Book', bookSchema);
 
-const state = {
-  books: [],
-};
-
-const getTargetIndex = (id) => state.books.findIndex((book) => book.id === id);
-
 const booksDb = {
   findAll() {
     return BookModel.find();
