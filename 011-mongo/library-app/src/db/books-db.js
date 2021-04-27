@@ -23,13 +23,8 @@ const booksDb = {
     return BookModel.find();
   },
   findById({ id }) {
-    const targetIndex = getTargetIndex(id);
-
-    if (targetIndex === -1) {
-      throw new Error('404 from DB');
-    } else {
-      return state.books[targetIndex];
-    }
+    // eslint-disable-next-line no-underscore-dangle
+    return BookModel.findById(id).exec().then((res) => res._doc);
   },
   insert({ id, ...bookInfo }) {
     const book = new BookModel(bookInfo);

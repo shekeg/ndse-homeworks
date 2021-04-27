@@ -11,15 +11,18 @@ apiBooksRouter.get('/', (_, res, next) => {
     .catch(next);
 });
 
-apiBooksRouter.get('/:id', (req, res, next) => {
-  const { id } = req.params;
-  const book = booksActions.getById({ id });
-  booksActions.incrementViewCount({ id })
-    .then(() => booksActions.getViewCount({ id }))
-    .then((state) => {
-      res.status(200).json({ ...book, viewCount: state[id] });
-    })
-    .catch(next);
+apiBooksRouter.get('/:id', async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const book = await booksActions.getById({ id });
+
+    await booksActions.incrementViewCount({ id });
+    const counterState = await booksActions.getViewCount({ id });
+
+    res.status(200).json({ ...book, viewCount: counterState[id] });
+  } catch (error) {
+    next(error);
+  }
 });
 
 apiBooksRouter.post('/', fileMiddleware.single('fileBook'), (req, res, next) => {

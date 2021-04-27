@@ -27,15 +27,18 @@ siteBooksRouter.post('/create', fileMiddleware.single('fileBook'), (req, res, ne
     .catch(next);
 });
 
-siteBooksRouter.get('/update/:id', (req, res, next) => {
-  const { id } = req.params;
-  const book = booksActions.getById({ id });
-  booksActions.incrementViewCount({ id })
-    .then(() => booksActions.getViewCount({ id }))
-    .then((state) => {
-      res.render('books/update', { book: { ...book, viewCount: state[id] } });
-    })
-    .catch(next);
+siteBooksRouter.get('/update/:id', async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const book = await booksActions.getById({ id });
+
+    await booksActions.incrementViewCount({ id });
+    const counterState = await booksActions.getViewCount({ id });
+
+    res.render('books/update', { book: { ...book, viewCount: counterState[id] } });
+  } catch (error) {
+    next(error);
+  }
 });
 
 siteBooksRouter.post('/update/:id', fileMiddleware.single('fileBook'), (req, res) => {
