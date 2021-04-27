@@ -21,12 +21,13 @@ apiBooksRouter.get('/:id', (req, res, next) => {
     .catch(next);
 });
 
-apiBooksRouter.post('/', fileMiddleware.single('fileBook'), (req, res) => {
-  const book = booksActions.add({
+apiBooksRouter.post('/', fileMiddleware.single('fileBook'), (req, res, next) => {
+  booksActions.add({
     ...req.body,
     fileBook: req.file ? `/${req.file.path}` : '',
-  });
-  res.status(200).json(book);
+  })
+    .then((book) => res.status(200).json(book))
+    .catch(next);
 });
 
 apiBooksRouter.put('/:id', fileMiddleware.single('fileBook'), (req, res) => {

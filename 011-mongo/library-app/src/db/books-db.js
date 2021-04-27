@@ -1,4 +1,16 @@
-const generateUniqueId = require('generate-unique-id');
+const { Schema, model } = require('mongoose');
+
+const bookSchema = new Schema({
+  title: { type: String, default: '' },
+  description: { type: String, default: '' },
+  authors: { type: String, default: '' },
+  favorite: { type: String, default: '' },
+  fileCover: { type: String, default: '' },
+  fileName: { type: String, default: '' },
+  fileBook: { type: String, default: '' },
+});
+
+const BookModel = model('Book', bookSchema);
 
 const state = {
   books: [],
@@ -19,10 +31,9 @@ const booksDb = {
       return state.books[targetIndex];
     }
   },
-  insert({ ...bookInfo }) {
-    const id = generateUniqueId();
-    state.books.push({ ...bookInfo, id });
-    return { ...bookInfo, id };
+  insert({ id, ...bookInfo }) {
+    const book = new BookModel(bookInfo);
+    return book.save();
   },
   update({ id, ...bookInfo }) {
     const targetIndex = getTargetIndex(id);

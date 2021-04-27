@@ -17,13 +17,13 @@ siteBooksRouter.get('/create', (_, res) => {
   });
 });
 
-siteBooksRouter.post('/create', fileMiddleware.single('fileBook'), (req, res) => {
+siteBooksRouter.post('/create', fileMiddleware.single('fileBook'), (req, res, next) => {
   booksActions.add({
     ...req.body,
     fileBook: req.file ? `/${req.file.path}` : '',
-  });
-
-  res.redirect('/books');
+  })
+    .then(() => res.redirect('/books'))
+    .catch(next);
 });
 
 siteBooksRouter.get('/update/:id', (req, res, next) => {
