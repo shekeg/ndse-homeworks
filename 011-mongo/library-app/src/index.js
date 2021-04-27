@@ -1,3 +1,5 @@
+const mongoose = require('mongoose');
+
 const express = require('express');
 
 const {
@@ -21,8 +23,20 @@ app.use('/api/books', apiBooksRouter);
 app.use(notFoundMiddleware);
 app.use(errorHandleMiddleware);
 
-const PORT = process.env.PORT || 3000;
+async function start() {
+  try {
+    const PORT = process.env.PORT || 3000;
 
-app.listen(PORT, () => {
-  console.log(`=== start server PORT ${PORT} ===`);
-});
+    const MONGO_DB_HOST = process.env.MONGO_DB_HOST || 'mongodb://localhost:27017';
+
+    await mongoose.connect(`${MONGO_DB_HOST}/books`, { useNewUrlParser: true, useUnifiedTopology: true });
+
+    app.listen(PORT, () => {
+      console.log(`=== start server PORT ${PORT} ===`);
+    });
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+start();
