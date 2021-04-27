@@ -20,7 +20,7 @@ const getTargetIndex = (id) => state.books.findIndex((book) => book.id === id);
 
 const booksDb = {
   findAll() {
-    return state.books;
+    return BookModel.find();
   },
   findById({ id }) {
     const targetIndex = getTargetIndex(id);

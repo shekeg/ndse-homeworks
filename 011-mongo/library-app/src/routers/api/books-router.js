@@ -5,9 +5,10 @@ const { booksActions } = require('../../actions');
 
 const apiBooksRouter = express.Router();
 
-apiBooksRouter.get('/', (_, res) => {
-  const books = booksActions.list();
-  res.status(200).json(books);
+apiBooksRouter.get('/', (_, res, next) => {
+  booksActions.list()
+    .then((books) => res.status(200).json(books))
+    .catch(next);
 });
 
 apiBooksRouter.get('/:id', (req, res, next) => {

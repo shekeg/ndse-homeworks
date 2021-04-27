@@ -6,9 +6,10 @@ const { booksActions } = require('../../actions');
 
 const siteBooksRouter = express.Router();
 
-siteBooksRouter.get('/', (_, res) => {
-  const books = booksActions.list();
-  res.render('books/index', { books });
+siteBooksRouter.get('/', (_, res, next) => {
+  booksActions.list()
+    .then((books) => res.render('books/index', { books }))
+    .catch(next);
 });
 
 siteBooksRouter.get('/create', (_, res) => {
