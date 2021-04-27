@@ -57,10 +57,10 @@ siteBooksRouter.post('/update/:id', fileMiddleware.single('fileBook'), async (re
   }
 });
 
-siteBooksRouter.post('/delete/:id', (req, res) => {
-  booksActions.delete({ id: req.params.id });
-
-  res.redirect('/books');
+siteBooksRouter.post('/delete/:id', (req, res, next) => {
+  booksActions.delete({ id: req.params.id })
+    .then(() => res.redirect('/books'))
+    .catch(next);
 });
 
 exports.siteBooksRouter = siteBooksRouter;

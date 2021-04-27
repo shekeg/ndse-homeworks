@@ -44,9 +44,10 @@ apiBooksRouter.put('/:id', fileMiddleware.single('fileBook'), (req, res, next) =
     .catch(next);
 });
 
-apiBooksRouter.delete('/:id', (req, res) => {
-  booksActions.delete({ id: req.params.id });
-  res.status(200).json('ok');
+apiBooksRouter.delete('/:id', (req, res, next) => {
+  booksActions.delete({ id: req.params.id })
+    .then(() => res.status(200).json('ok'))
+    .catch(next);
 });
 
 apiBooksRouter.get('/:id/download', (req, res, next) => {

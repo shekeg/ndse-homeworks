@@ -34,14 +34,7 @@ const booksDb = {
     return BookModel.findByIdAndUpdate(id, bookInfo, { new: true });
   },
   remove({ id }) {
-    const targetIndex = getTargetIndex(id);
-
-    if (targetIndex === -1) {
-      throw new Error('404 from DB');
-    } else {
-      state.books.splice(targetIndex, 1);
-      return true;
-    }
+    return BookModel.deleteOne({ _id: id });
   },
 };
 
